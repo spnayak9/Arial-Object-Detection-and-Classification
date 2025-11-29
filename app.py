@@ -1,3 +1,43 @@
+# diagnotics start here
+
+
+# --- DIAGNOSTIC WRAPPER: put at top of app.py (temporary) ---
+import sys, traceback
+import streamlit as st
+
+st.set_page_config(page_title="YOLO Import Diagnostic", layout="wide")
+st.markdown("### Diagnostic: verifying `ultralytics` import")
+
+ultralytics_import_ok = False
+try:
+    import importlib
+    ul = importlib.import_module("ultralytics")
+    # try to read package version & core objects
+    ul_ver = getattr(ul, "__version__", getattr(ul, "version", "unknown"))
+    st.success(f"ultralytics module imported successfully. version: {ul_ver}")
+    # also test `from ultralytics import YOLO` specifically
+    try:
+        from ultralytics import YOLO  # noqa: F401
+        st.success("`from ultralytics import YOLO` succeeded.")
+        ultralytics_import_ok = True
+    except Exception as inner_e:
+        st.error("`from ultralytics import YOLO` raised an exception.")
+        st.text(traceback.format_exc())
+except Exception as e:
+    st.error("Importing `ultralytics` failed at runtime. Full traceback below:")
+    st.text(traceback.format_exc())
+
+# If import failed, stop the app early so the log is obvious
+if not ultralytics_import_ok:
+    st.stop()
+# --- end diagnostic wrapper ---
+
+
+
+
+# diagnotics end here
+
+
 
 import io
 import os
