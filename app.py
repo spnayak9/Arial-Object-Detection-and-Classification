@@ -1,28 +1,37 @@
 # diagnotics start here
 
+# app.py (smoke test)
+import streamlit as st
+import cv2, numpy as np
+st.title("Smoke test")
+st.write("opencv version:", cv2.__version__)
+st.write("numpy version:", np.__version__)
 
+
+# temp diagnostic
 import importlib, traceback, streamlit as st
-st.set_page_config(page_title="Import diagnostic", layout="wide")
-st.markdown("### env diagnostic (temporary)")
+st.set_page_config(page_title="cv2 diagnostic", layout="wide")
+st.title("cv2 diagnostic (temporary)")
 
 try:
-    import numpy as np
-    st.write("Numpy version:", np.__version__)
+    import pkgutil, importlib.metadata as md
+    st.write("Installed distributions snapshot (cv2-related):")
+    for name in ["opencv-python", "opencv-python-headless", "opencv-contrib-python"]:
+        try:
+            dist = md.distribution(name)
+            st.write(f"{name}: {dist.version}")
+        except Exception:
+            st.write(f"{name}: not installed")
 except Exception:
-    st.error("Failed to import numpy")
-    st.text(traceback.format_exc())
+    st.write("metadata read skipped")
 
 try:
     import cv2
-    st.write("cv2 imported, version:", getattr(cv2, "__version__", "unknown"))
+    st.success(f"cv2 imported: {cv2.__version__}")
 except Exception:
-    st.error("Failed importing cv2; full traceback:")
+    st.error("cv2 import failed; traceback below")
     st.text(traceback.format_exc())
-
-# stop if cv2 failed so logs show the error clearly
-if 'cv2' not in globals():
     st.stop()
-
 
 # diagnotics end here
 
