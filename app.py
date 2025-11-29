@@ -1,63 +1,27 @@
 # diagnotics start here
 
-# Pre-import diagnostic (temporary)
-import importlib, sys, os, traceback
-import streamlit as st
-st.set_page_config(page_title="YOLO import check", layout="wide")
-st.write("Diagnostic: checking cv2 / ultralytics import")
 
-cv2_ok = False
+import importlib, traceback, streamlit as st
+st.set_page_config(page_title="Import diagnostic", layout="wide")
+st.markdown("### env diagnostic (temporary)")
+
 try:
-    cv2 = importlib.import_module("cv2")
-    st.success(f"cv2 imported, version: {getattr(cv2, '__version__', 'unknown')}")
-    # check whether headless (simple heuristic: many headless builds expose '-headless' in metadata not always available)
-    try:
-        import pkgutil
-        dist = importlib.metadata.distribution("opencv-python-headless")
-        st.write("Found opencv-python-headless installed:", dist.version)
-    except Exception:
-        st.write("opencv-python-headless not found via metadata; may be non-headless build.")
-    cv2_ok = True
+    import numpy as np
+    st.write("Numpy version:", np.__version__)
 except Exception:
-    st.error("Failed importing cv2. Full traceback:")
+    st.error("Failed to import numpy")
     st.text(traceback.format_exc())
 
-if not cv2_ok:
-    st.stop()
-
-
-# --- DIAGNOSTIC WRAPPER: put at top of app.py (temporary) ---
-import sys, traceback
-import streamlit as st
-
-st.set_page_config(page_title="YOLO Import Diagnostic", layout="wide")
-st.markdown("### Diagnostic: verifying `ultralytics` import")
-
-ultralytics_import_ok = False
 try:
-    import importlib
-    ul = importlib.import_module("ultralytics")
-    # try to read package version & core objects
-    ul_ver = getattr(ul, "__version__", getattr(ul, "version", "unknown"))
-    st.success(f"ultralytics module imported successfully. version: {ul_ver}")
-    # also test `from ultralytics import YOLO` specifically
-    try:
-        from ultralytics import YOLO  # noqa: F401
-        st.success("`from ultralytics import YOLO` succeeded.")
-        ultralytics_import_ok = True
-    except Exception as inner_e:
-        st.error("`from ultralytics import YOLO` raised an exception.")
-        st.text(traceback.format_exc())
-except Exception as e:
-    st.error("Importing `ultralytics` failed at runtime. Full traceback below:")
+    import cv2
+    st.write("cv2 imported, version:", getattr(cv2, "__version__", "unknown"))
+except Exception:
+    st.error("Failed importing cv2; full traceback:")
     st.text(traceback.format_exc())
 
-# If import failed, stop the app early so the log is obvious
-if not ultralytics_import_ok:
+# stop if cv2 failed so logs show the error clearly
+if 'cv2' not in globals():
     st.stop()
-# --- end diagnostic wrapper ---
-
-
 
 
 # diagnotics end here
