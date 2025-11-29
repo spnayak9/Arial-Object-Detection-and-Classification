@@ -9,6 +9,12 @@ The solution is critical for various applications, including:
 
 This initiative involves building a custom CNN classification model, leveraging transfer learning, and optionally implementing YOLOv8 for real-time object detection. The final solution will be deployed using Streamlit for interactive use.
 
+## Notebook Outputs
+[Drive Output Link](https://drive.google.com/drive/folders/1KIvW7pUQMRG9M56_pe0ZydGwE7jcLYbm?usp=sharing)
+
+## Streamlit app
+[Link to Streamlit app](https://arial-object-detection-and-classification-shakti.streamlit.app/)
+
 ## Approach
 
 This project adopted a structured deep learning approach to address the aerial object classification and detection problem. The methodology involved several key stages:

@@ -1,0 +1,8 @@
+ultralytics
+streamlit
+pillow
+numpy
+requests
+# torch is often required by ultralytics; if deployment fails, pin an appropriate
+# CPU/GPU wheel for your platform (see https://pytorch.org/get-started/locally/)
+# torch
