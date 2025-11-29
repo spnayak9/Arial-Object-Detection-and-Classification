@@ -1,5 +1,30 @@
 # diagnotics start here
 
+# Pre-import diagnostic (temporary)
+import importlib, sys, os, traceback
+import streamlit as st
+st.set_page_config(page_title="YOLO import check", layout="wide")
+st.write("Diagnostic: checking cv2 / ultralytics import")
+
+cv2_ok = False
+try:
+    cv2 = importlib.import_module("cv2")
+    st.success(f"cv2 imported, version: {getattr(cv2, '__version__', 'unknown')}")
+    # check whether headless (simple heuristic: many headless builds expose '-headless' in metadata not always available)
+    try:
+        import pkgutil
+        dist = importlib.metadata.distribution("opencv-python-headless")
+        st.write("Found opencv-python-headless installed:", dist.version)
+    except Exception:
+        st.write("opencv-python-headless not found via metadata; may be non-headless build.")
+    cv2_ok = True
+except Exception:
+    st.error("Failed importing cv2. Full traceback:")
+    st.text(traceback.format_exc())
+
+if not cv2_ok:
+    st.stop()
+
 
 # --- DIAGNOSTIC WRAPPER: put at top of app.py (temporary) ---
 import sys, traceback
