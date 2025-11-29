@@ -16,7 +16,7 @@ except Exception as e:
 st.set_page_config(page_title="YOLOv8 — Object Detection Demo", layout="wide")
 
 # ---------- CONFIG ----------
-MODEL_PATH = "bestall.pt"  # place bestall.pt next to this script
+MODEL_PATH = "Models/bestall.pt"  # place bestall.pt next to this script
 DEFAULT_CONF = 0.25
 DEFAULT_IOU = 0.45
 CLASS_NAMES = None  # optional: ["Bird","drone", ...] — set if you want custom names
