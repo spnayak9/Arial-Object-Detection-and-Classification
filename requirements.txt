@@ -1,8 +1,15 @@
-ultralytics
-streamlit
-pillow
+# allow PyTorch CPU wheels from the PyTorch index
+--extra-index-url https://download.pytorch.org/whl/cpu
+
+# core packages
+streamlit==1.27.0
+ultralytics==8.3.231
+
+# CPU-only PyTorch wheel (match a version that exists in the CPU index)
+torch==2.9.0+cpu
+
+# helpers
 numpy
+pillow
+opencv-python-headless
 requests
-# torch is often required by ultralytics; if deployment fails, pin an appropriate
-# CPU/GPU wheel for your platform (see https://pytorch.org/get-started/locally/)
-# torch
