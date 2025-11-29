@@ -1,38 +1,5 @@
 # diagnotics start here
 
-# app.py (smoke test)
-import streamlit as st
-import cv2, numpy as np
-st.title("Smoke test")
-st.write("opencv version:", cv2.__version__)
-st.write("numpy version:", np.__version__)
-
-
-# temp diagnostic
-import importlib, traceback, streamlit as st
-st.set_page_config(page_title="cv2 diagnostic", layout="wide")
-st.title("cv2 diagnostic (temporary)")
-
-try:
-    import pkgutil, importlib.metadata as md
-    st.write("Installed distributions snapshot (cv2-related):")
-    for name in ["opencv-python", "opencv-python-headless", "opencv-contrib-python"]:
-        try:
-            dist = md.distribution(name)
-            st.write(f"{name}: {dist.version}")
-        except Exception:
-            st.write(f"{name}: not installed")
-except Exception:
-    st.write("metadata read skipped")
-
-try:
-    import cv2
-    st.success(f"cv2 imported: {cv2.__version__}")
-except Exception:
-    st.error("cv2 import failed; traceback below")
-    st.text(traceback.format_exc())
-    st.stop()
-
 # diagnotics end here
 
 
